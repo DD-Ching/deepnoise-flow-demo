@@ -4,9 +4,19 @@ Public-facing personal showcase page for **DeepNoise Flow**.
 
 ## Open locally
 
+Serve the demo directory:
+
 ```bash
-open demo/index.html
+python -m http.server 8080 --directory demo
 ```
+
+Then open `http://127.0.0.1:8080` in your browser.
+
+If you prefer a direct file-open command:
+
+- macOS: `open demo/index.html`
+- Linux: `xdg-open demo/index.html`
+- Windows (PowerShell): `start demo/index.html`
 
 ## What it contains
 

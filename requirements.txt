@@ -12,4 +12,4 @@ speechbrain>=0.5.16
 fastapi>=0.110
 uvicorn[standard]>=0.28
 python-multipart>=0.0.9
-python-socketio[asgi]>=5.11
+python-socketio>=5.11
