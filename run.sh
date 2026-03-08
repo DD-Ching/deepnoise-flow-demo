@@ -4,6 +4,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LOG_DIR="$ROOT/.runlogs"
 MODE="${1:-demo}"
+AUTO_INSTALL_DEPS="${DEEPNOISE_AUTO_INSTALL_DEPS:-1}"
 
 API_HOST="${DEEPNOISE_API_HOST:-127.0.0.1}"
 API_PORT="${DEEPNOISE_API_PORT:-8000}"
@@ -55,17 +56,62 @@ resolve_python() {
   echo ""
 }
 
-require_python_modules() {
-  if ! "$PYTHON_BIN" - <<'PY' >/dev/null 2>&1
+is_truthy() {
+  local value
+  value="$(echo "${1:-}" | tr '[:upper:]' '[:lower:]')"
+  [[ "$value" != "0" && "$value" != "false" && "$value" != "no" ]]
+}
+
+has_required_python_modules() {
+  "$PYTHON_BIN" - <<'PY' >/dev/null 2>&1
 import fastapi
 import uvicorn
 PY
-  then
+}
+
+install_python_dependencies() {
+  local bootstrap_python=""
+  if [[ -x "$ROOT/.venv/bin/python" ]]; then
+    bootstrap_python="$ROOT/.venv/bin/python"
+  elif command -v python3 >/dev/null 2>&1; then
+    bootstrap_python="$(command -v python3)"
+  elif command -v python >/dev/null 2>&1; then
+    bootstrap_python="$(command -v python)"
+  fi
+
+  if [[ -z "$bootstrap_python" ]]; then
+    echo "Python not found. Install Python 3 first."
+    exit 1
+  fi
+
+  if [[ ! -x "$ROOT/.venv/bin/python" ]]; then
+    echo "Creating Python virtualenv at $ROOT/.venv ..."
+    "$bootstrap_python" -m venv "$ROOT/.venv"
+  fi
+
+  PYTHON_BIN="$ROOT/.venv/bin/python"
+  echo "Installing Python dependencies from requirements.txt ..."
+  "$PYTHON_BIN" -m pip install --upgrade pip >/dev/null
+  "$PYTHON_BIN" -m pip install -r "$ROOT/requirements.txt"
+}
+
+require_python_modules() {
+  if has_required_python_modules; then
+    return 0
+  fi
+
+  if ! is_truthy "$AUTO_INSTALL_DEPS"; then
     echo "Missing Python dependencies for API server."
-    echo "Create .venv and install requirements:"
+    echo "Set DEEPNOISE_AUTO_INSTALL_DEPS=1 or install manually:"
     echo "  python -m venv .venv"
     echo "  source .venv/bin/activate"
     echo "  pip install -r requirements.txt"
+    exit 1
+  fi
+
+  install_python_dependencies
+  if ! has_required_python_modules; then
+    echo "Dependency installation completed but required modules are still missing."
     exit 1
   fi
 }

@@ -2,6 +2,13 @@
 
 DeepNoise Flow is a personal showcase project for node-based audio processing workflows.
 
+## Documentation Index
+
+- `PROJECT_STRUCTURE.md`: repository boundaries and runtime modes
+- `MODEL_INTERFACE.md`: plugin API contract for models
+- `MODEL_EXTENSION_GUIDE.md`: practical extension walkthrough
+- `PUBLIC_RELEASE_PLAN.md`: safe public-release workflow
+
 ## Repository Layout
 
 ```text
@@ -72,12 +79,17 @@ Runtime discovery:
 - `DEEPNOISE_MAX_QUEUED_JOBS` (default `4`)
 - `DEEPNOISE_PROCESSING_TIMEOUT_SECONDS` (default `120`)
 - `DEEPNOISE_OUTPUT_ROOT` (default `./output_runs`)
+- `DEEPNOISE_DEFAULT_DENOISE_MODEL` (default `deepfilternet`)
+- `DEEPNOISE_DEFAULT_SEPARATION_MODEL` (default `sepformer`)
+- `DEEPNOISE_ENABLE_MODEL_FALLBACK` (default `1`)
+- `DEEPNOISE_FALLBACK_MODEL_NAME` (default `example_passthrough`)
 
 ### Runtime ports and hosts (`run.sh`)
 
 - `DEEPNOISE_API_HOST` / `DEEPNOISE_API_PORT`
 - `DEEPNOISE_UI_HOST` / `DEEPNOISE_UI_PORT`
 - `DEEPNOISE_DEMO_PORT`
+- `DEEPNOISE_AUTO_INSTALL_DEPS` (default `1`, auto-install Python deps when missing)
 
 ### UI
 
@@ -103,6 +115,18 @@ Direct core entry is also available:
 ```bash
 python core/main.py --input sample.wav --mode denoise_and_separate --output_dir output
 ```
+
+## Add New Models
+
+1. Add a new plugin file in `models/` (for example `models/my_custom_model.py`).
+2. Implement `BaseAudioModel` with `MODEL_NAME`, `load()`, `process()`, and `release()`.
+3. Start API and verify discovery:
+
+```bash
+curl http://127.0.0.1:8000/api/models
+```
+
+See `MODEL_INTERFACE.md` for the exact interface contract.
 
 ## Security and Release
 

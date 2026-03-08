@@ -17,30 +17,35 @@ report_issue() {
   echo "[warn] $1"
 }
 
+tracked_files=()
+while IFS= read -r -d '' tracked_file; do
+  tracked_files+=("$tracked_file")
+done < <(git ls-files -z)
+
+if [[ "${#tracked_files[@]}" -eq 0 ]]; then
+  echo "[warn] no tracked files found; skipping scan."
+  exit 0
+fi
+
+content_scan_files=()
+for tracked_file in "${tracked_files[@]}"; do
+  case "$tracked_file" in
+    scripts/security_scan.sh|scripts/public_release_check.sh|SECURITY_NOTE.md|RELEASE_CHECKLIST.md|PUBLIC_RELEASE_PLAN.md|*.lock)
+      continue
+      ;;
+    *)
+      content_scan_files+=("$tracked_file")
+      ;;
+  esac
+done
+
 echo "[scan] scanning tracked paths for forbidden files..."
 forbidden_path_matches="$(
-  find . -type f \
-    \( \
-      -name ".env" -o \
-      -name ".env.*" -o \
-      -name "*.pem" -o \
-      -name "*.key" -o \
-      -name "*.p12" -o \
-      -name "*.crt" -o \
-      -name "*.cer" -o \
-      -name "*.der" -o \
-      -name "*.log" -o \
-      -name "*.pid" -o \
-      -name "*.ckpt" -o \
-      -name "*.pt" -o \
-      -name "*.pth" -o \
-      -name "*.onnx" \
-    \) \
-    -not -path "./.git/*" \
-    -not -path "./ui/node_modules/*" \
-    -not -path "./ui/dist/*" \
-    -not -path "./ui/.vite/*" \
-    -not -path "./.venv/*" | sed 's|^\./||'
+  printf '%s\n' "${tracked_files[@]}" | rg -n \
+    -e '(^|/)\.env(\..+)?$' \
+    -e '\.(pem|key|p12|crt|cer|der)$' \
+    -e '\.(log|pid)$' \
+    -e '\.(ckpt|pt|pth|onnx)$' || true
 )"
 if [[ -n "$forbidden_path_matches" ]]; then
   report_issue "forbidden tracked files found:"
@@ -56,17 +61,7 @@ secret_matches="$(
     -e 'xox[baprs]-[A-Za-z0-9-]{10,}' \
     -e 'ghp_[A-Za-z0-9]{20,}' \
     -e 'BEGIN [A-Z ]*PRIVATE KEY' \
-    --glob '!.git/**' \
-    --glob '!ui/node_modules/**' \
-    --glob '!ui/dist/**' \
-    --glob '!ui/.vite/**' \
-    --glob '!**/*.lock' \
-    --glob '!scripts/security_scan.sh' \
-    --glob '!scripts/public_release_check.sh' \
-    --glob '!SECURITY_NOTE.md' \
-    --glob '!RELEASE_CHECKLIST.md' \
-    --glob '!PUBLIC_RELEASE_PLAN.md' \
-    . || true
+    "${content_scan_files[@]}" || true
 )"
 if [[ -n "$secret_matches" ]]; then
   report_issue "secret-like content found:"
@@ -80,13 +75,7 @@ path_matches="$(
     -e 'C:\\\\' \
     -e 'file://' \
     -e 'https?://(10\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[01])\.)' \
-    --glob '!.git/**' \
-    --glob '!ui/node_modules/**' \
-    --glob '!ui/dist/**' \
-    --glob '!ui/.vite/**' \
-    --glob '!**/*.lock' \
-    --glob '!scripts/security_scan.sh' \
-    . || true
+    "${content_scan_files[@]}" || true
 )"
 if [[ -n "$path_matches" ]]; then
   report_issue "local absolute paths or file URLs found:"

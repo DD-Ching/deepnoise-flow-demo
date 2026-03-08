@@ -17,10 +17,12 @@ class PipelineExecutionContext:
     run_dir: Path
     target_node_id: str | None = None
     node_outputs: dict[str, dict[str, str]] = field(default_factory=dict)
+    node_map: dict[str, dict[str, Any]] = field(init=False)
+    _model_instances: dict[str, BaseAudioModel] = field(init=False, repr=False)
 
     def __post_init__(self) -> None:
-        self.node_map: dict[str, dict[str, Any]] = {node["id"]: node for node in self.nodes}
-        self._model_instances: dict[str, BaseAudioModel] = {}
+        self.node_map = {node["id"]: node for node in self.nodes}
+        self._model_instances = {}
         discover_model_plugins()
 
     def resolve_inputs(self, target_node_id: str) -> list[str]:
