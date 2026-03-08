@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DeepNoise Flow - Personal Audio Processing Demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg">
+      <span class="orb orb-1"></span>
+      <span class="orb orb-2"></span>
+      <span class="orb orb-3"></span>
+      <span class="grid"></span>
+    </div>
+
+    <header class="nav">
+      <div class="logo" data-i18n="logo">DeepNoise Flow</div>
+      <nav class="links">
+        <a href="#overview" data-i18n="nav_overview">Overview</a>
+        <a href="#pipeline" data-i18n="nav_pipeline">Pipeline</a>
+        <a href="#demo" data-i18n="nav_demo">Demo</a>
+        <a href="#tech" data-i18n="nav_tech">Tech</a>
+        <a href="#safety" data-i18n="nav_safety">Safety</a>
+        <a href="#usage" data-i18n="nav_usage">Usage</a>
+      </nav>
+      <div class="nav-actions">
+        <div class="lang-toggle" role="group" aria-label="Language selector">
+          <button class="lang-btn" data-lang="en">EN</button>
+          <button class="lang-btn" data-lang="zh">中文</button>
+        </div>
+        <a class="btn primary" href="#demo" data-i18n="nav_cta">Try the Demo</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero reveal" id="top">
+        <div class="hero-copy">
+          <p class="eyebrow" data-i18n="hero_eyebrow">Personal Engineering Showcase</p>
+          <h1 data-i18n="hero_title">Interactive Noise Reduction Pipeline</h1>
+          <p class="sub" data-i18n="hero_sub">
+            DeepNoise Flow is a personal demo website for audio denoise workflows. Upload or record
+            audio, run node-based processing, preview waveform and playback, then download output.
+          </p>
+          <div class="cta">
+            <a class="btn primary" href="#demo" data-i18n="hero_cta_primary">See Interactive Demo</a>
+            <a class="btn ghost" href="#usage" data-i18n="hero_cta_secondary">Run Locally</a>
+          </div>
+          <div class="metrics">
+            <div>
+              <span>Upload + Record</span>
+              <label data-i18n="metric_input">Input methods</label>
+            </div>
+            <div>
+              <span>Node Editor</span>
+              <label data-i18n="metric_visual">Visual workflow</label>
+            </div>
+            <div>
+              <span>Download Output</span>
+              <label data-i18n="metric_export">Export</label>
+            </div>
+          </div>
+        </div>
+        <div class="hero-card">
+          <div class="card-header">
+            <span data-i18n="card_live">Flow Preview</span>
+            <span class="pill" data-i18n="card_ready">Public Demo</span>
+          </div>
+          <div class="waveform">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+          </div>
+          <div class="card-footer">
+            <div>
+              <strong data-i18n="card_action_1">Quick Actions</strong>
+              <span data-i18n="card_action_1_sub">Upload / Record / Replay</span>
+            </div>
+            <div>
+              <strong data-i18n="card_action_2">Inspector</strong>
+              <span data-i18n="card_action_2_sub">Advanced settings</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal" id="overview">
+        <div class="section-title">
+          <h2 data-i18n="overview_title">Project Overview</h2>
+          <p data-i18n="overview_sub">A clean public showcase for audio workflow engineering.</p>
+        </div>
+        <div class="mode-grid">
+          <article class="mode-card">
+            <h3 data-i18n="overview_what_title">What this tool does</h3>
+            <p data-i18n="overview_what_body">
+              It demonstrates a visual audio pipeline where users can clean noisy speech and inspect
+              each processing step in a node editor.
+            </p>
+          </article>
+          <article class="mode-card">
+            <h3 data-i18n="overview_tech_title">Technologies</h3>
+            <p data-i18n="overview_tech_body">
+              ReactFlow front-end, FastAPI backend, DeepFilterNet denoise, and optional SepFormer
+              speaker separation.
+            </p>
+          </article>
+          <article class="mode-card accent">
+            <h3 data-i18n="overview_demo_title">What the workflow demonstrates</h3>
+            <p data-i18n="overview_demo_body">
+              Interaction consistency, quick action panels, advanced inspector controls, and safe
+              backend processing for public traffic.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section reveal" id="pipeline">
+        <div class="section-title">
+          <h2 data-i18n="pipeline_title">Audio Processing Workflow Demo</h2>
+          <p data-i18n="pipeline_sub">From source input to downloadable output in a single visual graph.</p>
+        </div>
+        <div class="pipeline">
+          <div class="step">
+            <h3 data-i18n="pipeline_step_1_title">1. Input</h3>
+            <p data-i18n="pipeline_step_1_body">Upload WAV/MP3/WEBM or record from microphone.</p>
+          </div>
+          <div class="step">
+            <h3 data-i18n="pipeline_step_2_title">2. Noise Reduction</h3>
+            <p data-i18n="pipeline_step_2_body">Run DeepFilterNet to suppress background noise.</p>
+          </div>
+          <div class="step">
+            <h3 data-i18n="pipeline_step_3_title">3. Preview</h3>
+            <p data-i18n="pipeline_step_3_body">Inspect waveform and playback processed audio instantly.</p>
+          </div>
+          <div class="step">
+            <h3 data-i18n="pipeline_step_4_title">4. Export</h3>
+            <p data-i18n="pipeline_step_4_body">Download clean output in your selected format.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal" id="demo">
+        <div class="section-title">
+          <h2 data-i18n="demo_title">Interactive Demo</h2>
+          <p data-i18n="demo_sub">
+            The live editor supports upload/recording, waveform preview, playback, and output download.
+          </p>
+        </div>
+        <div class="demo-grid">
+          <div class="demo-card">
+            <h3 data-i18n="demo_input_title">Input Node Quick Actions</h3>
+            <div class="audio-slot">
+              <div>
+                <span class="label" data-i18n="demo_input_upload_label">Upload audio</span>
+                <div class="audio-placeholder" data-i18n="demo_input_upload_desc">WAV / MP3 / WEBM (max 10MB)</div>
+              </div>
+              <div>
+                <span class="label" data-i18n="demo_input_record_label">Record audio</span>
+                <div class="audio-placeholder" data-i18n="demo_input_record_desc">Capture short clips and replay instantly</div>
+              </div>
+            </div>
+            <p class="note" data-i18n="demo_input_note">Waveform preview and replay are available in the floating quick panel.</p>
+          </div>
+          <div class="demo-card">
+            <h3 data-i18n="demo_output_title">Output Node Quick Actions</h3>
+            <div class="audio-slot">
+              <div>
+                <span class="label" data-i18n="demo_output_preview_label">Preview processed audio</span>
+                <div class="audio-placeholder" data-i18n="demo_output_preview_desc">View waveform and play result</div>
+              </div>
+              <div>
+                <span class="label" data-i18n="demo_output_download_label">Download file</span>
+                <div class="audio-placeholder" data-i18n="demo_output_download_desc">Export output for editing or sharing</div>
+              </div>
+            </div>
+            <p class="note" data-i18n="demo_output_note">Advanced format/bitrate settings are in the right inspector.</p>
+          </div>
+        </div>
+        <div class="shot-grid">
+          <figure class="shot-card">
+            <img src="assets/report_ui_01.png" alt="DeepNoise Flow canvas screenshot" />
+            <figcaption data-i18n="demo_shot_1">Node canvas and workflow controls</figcaption>
+          </figure>
+          <figure class="shot-card">
+            <img src="assets/report_ui_02.png" alt="DeepNoise Flow quick panel screenshot" />
+            <figcaption data-i18n="demo_shot_2">Floating quick actions and inspector panel</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section reveal" id="tech">
+        <div class="section-title">
+          <h2 data-i18n="tech_title">Technical Notes</h2>
+          <p data-i18n="tech_sub">Designed as a practical personal demo that can be shared publicly.</p>
+        </div>
+        <div class="usage-grid">
+          <div class="usage-card">
+            <h3 data-i18n="tech_frontend_title">Frontend</h3>
+            <pre><code>React + Vite + ReactFlow
+Floating quick panels
+Resizable inspector layout
+Waveform rendering with memoization</code></pre>
+          </div>
+          <div class="usage-card">
+            <h3 data-i18n="tech_backend_title">Backend</h3>
+            <pre><code>FastAPI + Socket.IO
+Upload validation + safety limits
+Rate limiting + request throttling
+Processing timeout + queue control</code></pre>
+          </div>
+          <div class="usage-card">
+            <h3 data-i18n="tech_models_title">Audio Models</h3>
+            <pre><code>DeepFilterNet for denoise
+Optional SepFormer separation
+WAV/MP3/WEBM input validation
+Public-safe processing guards</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal" id="safety">
+        <div class="section-title">
+          <h2 data-i18n="safety_title">Public Traffic Safety</h2>
+          <p data-i18n="safety_sub">Safeguards are enabled to prevent abuse and overload.</p>
+        </div>
+        <div class="mode-grid">
+          <article class="mode-card">
+            <h3 data-i18n="safety_limit_title">Input limits</h3>
+            <ul>
+              <li data-i18n="safety_limit_1">Max upload: 10MB</li>
+              <li data-i18n="safety_limit_2">Max duration: 30 seconds</li>
+              <li data-i18n="safety_limit_3">Allowed types: WAV / MP3 / WEBM</li>
+            </ul>
+          </article>
+          <article class="mode-card">
+            <h3 data-i18n="safety_traffic_title">Traffic controls</h3>
+            <ul>
+              <li data-i18n="safety_traffic_1">Per-IP rate limiting per minute</li>
+              <li data-i18n="safety_traffic_2">Short-interval throttling</li>
+              <li data-i18n="safety_traffic_3">Friendly error on limit exceeded</li>
+            </ul>
+          </article>
+          <article class="mode-card accent">
+            <h3 data-i18n="safety_runtime_title">Runtime protection</h3>
+            <ul>
+              <li data-i18n="safety_runtime_1">Processing timeout for long jobs</li>
+              <li data-i18n="safety_runtime_2">Concurrent job cap + queue cap</li>
+              <li data-i18n="safety_runtime_3">Graceful busy response when overloaded</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section reveal" id="usage">
+        <div class="section-title">
+          <h2 data-i18n="usage_title">Run the Demo Locally</h2>
+          <p data-i18n="usage_sub">Use these commands to launch core mode or full demo mode.</p>
+        </div>
+        <div class="usage-grid">
+          <div class="usage-card">
+            <h3 data-i18n="usage_backend_title">Core mode</h3>
+            <pre><code>./run.sh core</code></pre>
+          </div>
+          <div class="usage-card">
+            <h3 data-i18n="usage_frontend_title">Demo mode</h3>
+            <pre><code>./run.sh demo</code></pre>
+          </div>
+          <div class="usage-card">
+            <h3 data-i18n="usage_try_title">Try the workflow</h3>
+            <ol>
+              <li data-i18n="usage_try_1">Open the ReactFlow editor in browser.</li>
+              <li data-i18n="usage_try_2">Upload or record short audio.</li>
+              <li data-i18n="usage_try_3">Run pipeline, preview result, and download output.</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div>
+        <strong data-i18n="footer_brand">DeepNoise Flow</strong>
+        <span data-i18n="footer_tagline">Personal experimental audio workflow demo</span>
+      </div>
+      <div class="footer-links">
+        <a href="#top" data-i18n="footer_back">Back to top</a>
+      </div>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>

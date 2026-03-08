@@ -1,0 +1,212 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-slate-950 text-slate-100 antialiased;
+    font-family: "Space Grotesk", "Noto Sans TC", ui-sans-serif, system-ui, sans-serif;
+  }
+}
+
+@layer components {
+  .panel-card {
+    @apply rounded-2xl border border-slate-800 bg-slate-900/80 shadow-xl shadow-black/20;
+  }
+
+  .panel-title {
+    @apply text-xs font-semibold uppercase tracking-[0.24em] text-slate-400;
+  }
+
+  .badge {
+    @apply rounded-full border border-slate-700 bg-slate-800/80 px-3 py-1 text-xs font-semibold text-slate-200;
+  }
+
+  .node-active {
+    box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.95), 0 0 24px rgba(16, 185, 129, 0.45);
+  }
+
+  .node-disabled {
+    opacity: 0.55;
+    filter: grayscale(0.2);
+  }
+
+  .edge-active .react-flow__edge-path {
+    stroke: #34d399;
+    stroke-width: 2.5;
+  }
+
+.edge-animated .react-flow__edge-path {
+  stroke-dasharray: 10 6;
+  animation: edge-dash 1s linear infinite;
+}
+
+.panel-resize-handle {
+  width: 8px;
+  background: rgba(15, 23, 34, 0.6);
+  border-radius: 999px;
+  cursor: col-resize;
+  transition: background 0.2s ease;
+}
+
+.panel-resize-handle:hover {
+  background: rgba(56, 189, 248, 0.35);
+}
+
+.panel-resize-handle[data-resize-handle-active] {
+  background: rgba(56, 189, 248, 0.6);
+}
+}
+
+@keyframes edge-dash {
+  to {
+    stroke-dashoffset: -32;
+  }
+}
+
+.wave-panel {
+  border-radius: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  background: rgba(15, 23, 34, 0.6);
+  padding: 18px;
+}
+
+
+.react-flow__node-input,
+.react-flow__node-export {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  overflow: visible;
+}
+
+.node-corner-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  background: rgba(15, 23, 34, 0.8);
+  color: rgba(226, 232, 240, 0.9);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  line-height: 1;
+}
+
+.floating-panel {
+  position: absolute;
+  z-index: 60;
+  width: 340px;
+  border-radius: 18px;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  background: rgba(15, 23, 34, 0.92);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(12px);
+}
+
+.floating-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+  cursor: default;
+}
+
+.floating-panel-title {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: rgba(148, 163, 184, 0.9);
+}
+
+.floating-panel-subtitle {
+  margin-top: 4px;
+  font-size: 12px;
+  color: rgba(226, 232, 240, 0.8);
+}
+
+
+.floating-panel-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.floating-panel-meta {
+  margin-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 11px;
+  color: rgba(148, 163, 184, 0.85);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.floating-panel-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.floating-btn {
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: rgba(15, 23, 34, 0.85);
+  color: #e2e8f0;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.floating-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.floating-btn.ghost {
+  background: transparent;
+}
+
+.floating-panel-recording {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.floating-panel-timer {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(248, 250, 252, 0.9);
+}
+
+.floating-panel-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.floating-audio {
+  width: 100%;
+}
+
+.floating-panel-empty {
+  font-size: 12px;
+  color: rgba(148, 163, 184, 0.7);
+}

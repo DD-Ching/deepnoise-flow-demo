@@ -1,0 +1,15 @@
+deepfilternet>=0.5.6
+sounddevice>=0.4.7
+soundfile>=0.12.1
+numpy>=1.24
+resampy>=0.4.3
+scipy>=1.11
+torch==2.1.2
+torchaudio==2.1.2
+gradio>=4.0,<5
+huggingface_hub==0.23.4
+speechbrain>=0.5.16
+fastapi>=0.110
+uvicorn[standard]>=0.28
+python-multipart>=0.0.9
+python-socketio[asgi]>=5.11
